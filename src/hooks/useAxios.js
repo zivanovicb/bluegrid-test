@@ -1,8 +1,7 @@
 import React from "react";
-import _ from "lodash";
 import axios from "axios";
 
-function useAxios(url) {
+const useAxios = url => {
   const [data, setData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
@@ -12,17 +11,19 @@ function useAxios(url) {
       return;
     }
 
-    (async function() {
-      try {
-        const res = await axios.get(url);
+    axios
+      .get(url)
+      .then(res => {
         setData(res.data);
         setLoading(false);
-      } catch (err) {
+      })
+      .catch(err => {
         setError(err.toString());
         setLoading(false);
-      }
-    })();
+      });
   }, [url]);
 
   return [loading, error, data];
-}
+};
+
+export default useAxios;

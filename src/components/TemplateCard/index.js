@@ -5,7 +5,7 @@ import Button from "../Button";
 import PropTypes from "prop-types";
 import getPriceProperties from "../../helpers/getPriceProperties";
 
-const ProductCard = ({
+const TemplateCard = ({
   name,
   description,
   features,
@@ -19,7 +19,11 @@ const ProductCard = ({
   );
   return (
     <Card {...rest}>
-      <Card.Header isSelected={isSelected}>{name}</Card.Header>
+      <Card.Header isSelected={isSelected}>
+        {name}
+        <Separator />
+        <PriceTag>{amount}</PriceTag>
+      </Card.Header>
       <Card.Body>
         <Card.Description>{description}</Card.Description>
         <Card.List>
@@ -49,13 +53,25 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export default TemplateCard;
 
-ProductCard.propTypes = {
+TemplateCard.propTypes = {
   description: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   features: PropTypes.arrayOf(PropTypes.string).isRequired
 };
+
+const PriceTag = styled.span`
+  color: ${props => props.theme.grey};
+`;
+
+const Separator = styled.div`
+  display: inline-block;
+  width: 2px;
+  height: 13px;
+  background: ${props => props.theme.grey};
+  margin: 0 5px;
+`;
 
 const Row = styled.div`
   width: 100%;

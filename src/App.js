@@ -1,17 +1,9 @@
 import React from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { theme } from "./constants";
 import Tabs from "./components/Tabs";
-import ProductCard from "./components/ProductCard";
-
-const theme = {
-  blue: "#20698B",
-  lightBlue: "#E7F1F3",
-  darkBlue: "#183483",
-  grey: "#686E79",
-  lightGrey: "#E2E2E2",
-  black: "#1F1F1F",
-  white: "#F9F9F9"
-};
+import Templates from "./components/Templates";
+import Products from "./components/Products";
 
 function App() {
   return (
@@ -26,25 +18,11 @@ function App() {
               <Tabs.Tab>Products(3)</Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel>
-              <CardList>
-                {[1, 2, 3, 4, 5, 6].map((item, i) => (
-                  <StyledProductCard
-                    description="Accelerate your websites & apps with Global Caching"
-                    features={[
-                      "Unlimited Sites",
-                      "Unlimited Requests",
-                      "1TB/mo Bandwith",
-                      "All Global PoPs Included",
-                      "Free SSl Certificate per site",
-                      "Network Layer DDoS Protection"
-                    ]}
-                    price="$10/month"
-                    key={i.toString()}
-                  />
-                ))}
-              </CardList>
+              <Templates />
             </Tabs.Panel>
-            <Tabs.Panel>noahnoup</Tabs.Panel>
+            <Tabs.Panel>
+              <Products />
+            </Tabs.Panel>
           </Tabs>
         </Wrapper>
       </ThemeProvider>
@@ -52,13 +30,6 @@ function App() {
   );
 }
 
-const StyledProductCard = styled(ProductCard)`
-  margin-right: 16px;
-  margin-bottom: 16px;
-  &:last-of-type {
-    margin-right: 0;
-  }
-`;
 const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -87,13 +58,6 @@ const Wrapper = styled.main`
 const Title = styled.h1`
   color: ${props => props.theme.black};
   margin-bottom: 45px;
-`;
-
-const CardList = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  padding: 25px 50px;
 `;
 
 export default App;

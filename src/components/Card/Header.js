@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 
 const Title = styled.span`
   font-weight: 700;
-  text-transform: uppercase;
   color: ${props => (props.isSelected ? props.theme.blue : props.theme.black)};
 `;
 

@@ -32,7 +32,7 @@ const Primary = styled(Base)`
 `;
 
 Button.propTypes = {
-  type: PropTypes.string.isRequired
+  type: PropTypes.string
 };
 
 export default Button;
