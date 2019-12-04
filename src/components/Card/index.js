@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   width: 265px;
   background: white;
   border-radius: 5px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #b3b3b3;
   overflow: hidden;
 `;
 

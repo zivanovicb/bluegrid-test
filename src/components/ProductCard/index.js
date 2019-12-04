@@ -1,8 +1,10 @@
 import React from "react";
-import styled from "styled-components";
-import Card from "../Card";
-import Button from "../Button";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import Row from "../Row";
+import Card from "../Card";
+import Icon from "../Icon";
+import Button from "../Button";
 import getPriceProperties from "../../helpers/getPriceProperties";
 
 const ProductCard = ({
@@ -41,7 +43,11 @@ const ProductCard = ({
         </Card.Price>
         <Row>
           {isSelected ? (
-            <Button type="primary" onClick={() => unselect(_id)}>
+            <Button
+              type="primary"
+              onClick={() => unselect(_id)}
+              icon={<StyledCheckIcon name="check" width="15px" height="15px" />}
+            >
               Selected
             </Button>
           ) : (
@@ -72,7 +78,6 @@ ProductCard.propTypes = {
   unselect: PropTypes.func.isRequired
 };
 
-const Row = styled.div`
-  width: 100%;
-  text-align: center;
+const StyledCheckIcon = styled(Icon)`
+  margin-left: 15px;
 `;

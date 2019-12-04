@@ -2,8 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
+import Row from "../Row";
 import ProductCard from "../ProductCard";
 import Loader from "../Loader";
+import Button from "../Button";
+import Icon from "../Icon";
 import { BASE_API_URL } from "../../constants";
 
 const Products = ({ select, unselect, selectedProducts, ...rest }) => {
@@ -15,25 +18,40 @@ const Products = ({ select, unselect, selectedProducts, ...rest }) => {
   if (hasError) return <h1>We're sorry. Something went wrong!</h1>;
 
   return (
-    <Wrapper {...rest}>
-      {products.map((p, i) => {
-        const isSelected =
-          selectedProducts.filter(prod => prod._id === p._id).length > 0;
-        return (
-          <StyledProductCard
-            _id={p._id}
-            name={p.name}
-            description={p.description}
-            features={p.features}
-            price={p.price}
-            isSelected={isSelected}
-            select={select}
-            unselect={unselect}
-            key={i.toString()}
-          />
-        );
-      })}
-    </Wrapper>
+    <>
+      <Wrapper {...rest}>
+        {products.map((p, i) => {
+          const isSelected =
+            selectedProducts.filter(prod => prod._id === p._id).length > 0;
+          return (
+            <StyledProductCard
+              _id={p._id}
+              name={p.name}
+              description={p.description}
+              features={p.features}
+              price={p.price}
+              isSelected={isSelected}
+              select={select}
+              unselect={unselect}
+              key={i.toString()}
+            />
+          );
+        })}
+      </Wrapper>
+      <Row>
+        <Button
+          type="squared"
+          disabled={selectedProducts.length === 0}
+          icon={<StyledArrowIcon name="arrow" width="30px" height="30px" />}
+        >
+          Next
+        </Button>
+
+        <SpanSeparator>or</SpanSeparator>
+
+        <a href="">Back</a>
+      </Row>
+    </>
   );
 };
 
@@ -56,6 +74,7 @@ const Wrapper = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   padding: 25px 50px;
+  margin-bottom: 50px;
 `;
 
 const StyledProductCard = styled(ProductCard)`
@@ -64,6 +83,15 @@ const StyledProductCard = styled(ProductCard)`
   &:last-of-type {
     margin-right: 0;
   }
+`;
+
+const SpanSeparator = styled.span`
+  display: inline-block;
+  margin: 0 15px;
+`;
+
+const StyledArrowIcon = styled(Icon)`
+  margin-left: 15px;
 `;
 
 export default Products;

@@ -6,8 +6,9 @@ import Templates from "./components/Templates";
 import Products from "./components/Products";
 
 function App() {
-  const [selectedTemplates, setSelectedTemplates] = useState([]);
+  const [selectedTemplate, setSelectedTemplate] = useState({});
   const [selectedProducts, setSelectedProducts] = useState([]);
+  console.log({ selectedTemplate });
   return (
     <>
       <GlobalStyle />
@@ -21,15 +22,12 @@ function App() {
             </Tabs.List>
             <Tabs.Panel>
               <Templates
-                selectedTemplates={selectedTemplates}
-                select={template =>
-                  setSelectedTemplates([...selectedTemplates, template])
-                }
-                unselect={id =>
-                  setSelectedTemplates(
-                    selectedTemplates.filter(s => s._id !== id)
-                  )
-                }
+                selectedTemplate={selectedTemplate}
+                select={template => {
+                  setSelectedTemplate(template);
+                  selectedProducts.length > 0 && setSelectedProducts([]);
+                }}
+                unselect={() => setSelectedTemplate({})}
               />
             </Tabs.Panel>
             <Tabs.Panel>
@@ -70,6 +68,9 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     cursor: pointer;
+  }
+  a{
+    color: ${props => theme.darkBlue};
   }
 `;
 
