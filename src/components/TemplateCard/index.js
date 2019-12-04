@@ -6,23 +6,29 @@ import PropTypes from "prop-types";
 import getPriceProperties from "../../helpers/getPriceProperties";
 
 const TemplateCard = ({
+  _id,
   name,
   description,
   features,
   price,
   isSelected,
   select,
+  unselect,
   ...rest
 }) => {
-  const { isNumeric, amount, billedPer, priceString } = getPriceProperties(
-    price
-  );
+  const {
+    isNumeric,
+    numericValue,
+    amount,
+    billedPer,
+    priceString
+  } = getPriceProperties(price);
   return (
     <Card {...rest}>
       <Card.Header isSelected={isSelected}>
         {name}
         <Separator />
-        <PriceTag>{amount}</PriceTag>
+        <PriceTag>{numericValue}</PriceTag>
       </Card.Header>
       <Card.Body>
         <Card.Description>{description}</Card.Description>
@@ -43,9 +49,23 @@ const TemplateCard = ({
         </Card.Price>
         <Row>
           {isSelected ? (
-            <Button type="primary">Selected</Button>
+            <Button type="primary" onClick={() => unselect(_id)}>
+              Selected
+            </Button>
           ) : (
-            <Button>Select</Button>
+            <Button
+              onClick={() =>
+                select({
+                  _id,
+                  name,
+                  description,
+                  features,
+                  price
+                })
+              }
+            >
+              Select
+            </Button>
           )}
         </Row>
       </Card.Body>
@@ -56,9 +76,14 @@ const TemplateCard = ({
 export default TemplateCard;
 
 TemplateCard.propTypes = {
+  _id: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  features: PropTypes.arrayOf(PropTypes.string).isRequired
+  features: PropTypes.arrayOf(PropTypes.string).isRequired,
+  price: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  select: PropTypes.func.isRequired,
+  unselect: PropTypes.func.isRequired
 };
 
 const PriceTag = styled.span`

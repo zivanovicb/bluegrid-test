@@ -4,12 +4,12 @@ const getPriceProperties = priceString => {
   const re = /[0-9,.]+/;
 
   if (re.test(priceString)) {
-    const [amount] = priceString.match(re);
-    // eslint-disable-next-line
-    const [_, billedPer] = priceString.split("/");
+    const [numericValue] = priceString.match(re);
+    const [amount, billedPer] = priceString.split("/");
 
     return {
       isNumeric: true,
+      numericValue,
       amount,
       billedPer,
       priceString

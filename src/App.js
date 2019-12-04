@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { theme } from "./constants";
 import Tabs from "./components/Tabs";
@@ -6,6 +6,8 @@ import Templates from "./components/Templates";
 import Products from "./components/Products";
 
 function App() {
+  const [selectedTemplates, setSelectedTemplates] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
   return (
     <>
       <GlobalStyle />
@@ -15,13 +17,33 @@ function App() {
           <Tabs defaultIndex={0}>
             <Tabs.List>
               <Tabs.Tab>Templates</Tabs.Tab>
-              <Tabs.Tab>Products(3)</Tabs.Tab>
+              <Tabs.Tab>Products({selectedProducts.length})</Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel>
-              <Templates />
+              <Templates
+                selectedTemplates={selectedTemplates}
+                select={template =>
+                  setSelectedTemplates([...selectedTemplates, template])
+                }
+                unselect={id =>
+                  setSelectedTemplates(
+                    selectedTemplates.filter(s => s._id !== id)
+                  )
+                }
+              />
             </Tabs.Panel>
             <Tabs.Panel>
-              <Products />
+              <Products
+                selectedProducts={selectedProducts}
+                select={product =>
+                  setSelectedProducts([...selectedProducts, product])
+                }
+                unselect={id =>
+                  setSelectedProducts(
+                    selectedProducts.filter(s => s._id !== id)
+                  )
+                }
+              />
             </Tabs.Panel>
           </Tabs>
         </Wrapper>

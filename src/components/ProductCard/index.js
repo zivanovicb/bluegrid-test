@@ -6,12 +6,14 @@ import PropTypes from "prop-types";
 import getPriceProperties from "../../helpers/getPriceProperties";
 
 const ProductCard = ({
+  _id,
   name,
   description,
   features,
   price,
   isSelected,
   select,
+  unselect,
   ...rest
 }) => {
   const { isNumeric, amount, billedPer, priceString } = getPriceProperties(
@@ -39,9 +41,17 @@ const ProductCard = ({
         </Card.Price>
         <Row>
           {isSelected ? (
-            <Button type="primary">Selected</Button>
+            <Button type="primary" onClick={() => unselect(_id)}>
+              Selected
+            </Button>
           ) : (
-            <Button>Select</Button>
+            <Button
+              onClick={() =>
+                select({ _id, name, description, features, price })
+              }
+            >
+              Select
+            </Button>
           )}
         </Row>
       </Card.Body>
@@ -52,9 +62,14 @@ const ProductCard = ({
 export default ProductCard;
 
 ProductCard.propTypes = {
+  _id: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  features: PropTypes.arrayOf(PropTypes.string).isRequired
+  features: PropTypes.arrayOf(PropTypes.string).isRequired,
+  price: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  select: PropTypes.func.isRequired,
+  unselect: PropTypes.func.isRequired
 };
 
 const Row = styled.div`
