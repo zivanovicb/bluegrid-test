@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-import { theme } from "./constants";
+import Modal from "react-modal";
 import Tabs from "./components/Tabs";
 import Templates from "./components/Templates";
+import SubscriptionModal from "./components/SubscriptionModal";
 import Products from "./components/Products";
+import { theme } from "./constants";
 
 function App() {
   const [selectedTemplate, setSelectedTemplate] = useState({});
   const [selectedProducts, setSelectedProducts] = useState([]);
-  console.log({ selectedTemplate });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
       <GlobalStyle />
@@ -32,6 +35,7 @@ function App() {
             </Tabs.Panel>
             <Tabs.Panel>
               <Products
+                selectedTemplate={selectedTemplate}
                 selectedProducts={selectedProducts}
                 select={product =>
                   setSelectedProducts([...selectedProducts, product])
@@ -41,9 +45,24 @@ function App() {
                     selectedProducts.filter(s => s._id !== id)
                   )
                 }
+                setIsModalOpen={setIsModalOpen}
               />
             </Tabs.Panel>
           </Tabs>
+
+          <SubscriptionModal
+            contentLabel="Subscription modal"
+            isModalOpen={isModalOpen}
+            selectedTemplate={selectedTemplate}
+            selectedProducts={selectedProducts}
+            onRequestClose={() => setIsModalOpen(false)}
+            overlayStyles={{
+              position: "absolute",
+              top: "0",
+              left: "0",
+              background: "rgba(255, 255, 255, 0.7)"
+            }}
+          />
         </Wrapper>
       </ThemeProvider>
     </>
@@ -82,5 +101,7 @@ const Title = styled.h1`
   color: ${props => props.theme.black};
   margin-bottom: 45px;
 `;
+
+Modal.setAppElement("#root");
 
 export default App;

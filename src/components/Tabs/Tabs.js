@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import TabsContext from "../../context/tabs";
 import makeChildTypeChecker from "../../helpers/makeChildTypeChecker";
-import {
-  TABS_LIST_COMPONENT_NAME,
-  TAB_PANEL_COMPONENT_NAME
-} from "../../constants";
+import { TAB_PANEL_COMPONENT_NAME } from "../../constants";
 
-const isTabsList = makeChildTypeChecker(TABS_LIST_COMPONENT_NAME);
 const isTabPanel = makeChildTypeChecker(TAB_PANEL_COMPONENT_NAME);
 
 const Tabs = ({ children, defaultIndex }) => {
@@ -15,26 +12,26 @@ const Tabs = ({ children, defaultIndex }) => {
   // Keeping track of the current tabPanel we're iterating over; this way it's safe to put any node betwen TabList and TabPanel component since it does not depend on order of compound components
   let currentPanelIndex;
 
-  return React.Children.map(children, child => {
-    if (isTabsList(child)) {
-      // TabList component gets cloned with modified props so it's aware of selectedIndex and can pass setSelectedIndex fn down to tab components
-      return React.cloneElement(child, {
-        ...child.props,
+  return (
+    <TabsContext.Provider
+      value={{
         selectedIndex,
         setSelectedIndex
-      });
-    }
+      }}
+    >
+      {React.Children.map(children, child => {
+        if (isTabPanel(child)) {
+          currentPanelIndex =
+            currentPanelIndex === undefined ? 0 : currentPanelIndex + 1;
+          if (currentPanelIndex === selectedIndex) return child;
+          // If child is tabPanel and is not currently selected nothing gets returned
+          else return;
+        }
 
-    if (isTabPanel(child)) {
-      currentPanelIndex =
-        currentPanelIndex === undefined ? 0 : currentPanelIndex + 1;
-      if (currentPanelIndex === selectedIndex) return child;
-      // If child is tabPanel and is not currently selected nothing gets returned
-      else return;
-    }
-
-    return child;
-  });
+        return child;
+      })}
+    </TabsContext.Provider>
+  );
 };
 
 Tabs.propTypes = {

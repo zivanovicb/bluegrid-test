@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
@@ -8,8 +8,10 @@ import Loader from "../Loader";
 import Button from "../Button";
 import Icon from "../Icon";
 import { BASE_API_URL } from "../../constants";
+import TabsContext from "../../context/tabs";
 
 const Templates = ({ select, unselect, selectedTemplate, ...rest }) => {
+  const { setSelectedIndex } = useContext(TabsContext);
   const [isLoading, hasError, templates] = useAxios(
     `${BASE_API_URL}/v1/templates`
   );
@@ -39,6 +41,9 @@ const Templates = ({ select, unselect, selectedTemplate, ...rest }) => {
           type="squared"
           disabled={Object.keys(selectedTemplate).length === 0}
           icon={<StyledArrowIcon name="arrow" width="30px" height="30px" />}
+          onClick={() => {
+            setSelectedIndex(1);
+          }}
         >
           Next
         </Button>

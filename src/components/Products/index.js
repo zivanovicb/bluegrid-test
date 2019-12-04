@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
@@ -8,8 +8,17 @@ import Loader from "../Loader";
 import Button from "../Button";
 import Icon from "../Icon";
 import { BASE_API_URL } from "../../constants";
+import TabsContext from "../../context/tabs";
 
-const Products = ({ select, unselect, selectedProducts, ...rest }) => {
+const Products = ({
+  select,
+  unselect,
+  selectedTemplate,
+  selectedProducts,
+  setIsModalOpen,
+  ...rest
+}) => {
+  const { setSelectedIndex } = useContext(TabsContext);
   const [isLoading, hasError, products] = useAxios(
     `${BASE_API_URL}/v1/products`
   );
@@ -41,15 +50,27 @@ const Products = ({ select, unselect, selectedProducts, ...rest }) => {
       <Row>
         <Button
           type="squared"
-          disabled={selectedProducts.length === 0}
+          disabled={
+            selectedProducts.length === 0 ||
+            Object.keys(selectedTemplate).length === 0
+          }
           icon={<StyledArrowIcon name="arrow" width="30px" height="30px" />}
+          onClick={() => setIsModalOpen(true)}
         >
           Next
         </Button>
 
         <SpanSeparator>or</SpanSeparator>
 
-        <a href="">Back</a>
+        <a
+          href="#"
+          onClick={e => {
+            e.preventDefault();
+            setSelectedIndex(0);
+          }}
+        >
+          Back
+        </a>
       </Row>
     </>
   );
@@ -58,6 +79,8 @@ const Products = ({ select, unselect, selectedProducts, ...rest }) => {
 Products.propTypes = {
   select: PropTypes.func.isRequired,
   unselect: PropTypes.func.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
+  selectedTemplate: PropTypes.object.isRequired,
   selectedProducts: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,

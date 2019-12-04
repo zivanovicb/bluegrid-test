@@ -16,6 +16,7 @@ const ProductCard = ({
   isSelected,
   select,
   unselect,
+  renderCTA,
   ...rest
 }) => {
   const { isNumeric, amount, billedPer, priceString } = getPriceProperties(
@@ -41,25 +42,30 @@ const ProductCard = ({
             priceString
           )}
         </Card.Price>
-        <Row>
-          {isSelected ? (
-            <Button
-              type="primary"
-              onClick={() => unselect(_id)}
-              icon={<StyledCheckIcon name="check" width="15px" height="15px" />}
-            >
-              Selected
-            </Button>
-          ) : (
-            <Button
-              onClick={() =>
-                select({ _id, name, description, features, price })
-              }
-            >
-              Select
-            </Button>
-          )}
-        </Row>
+
+        {renderCTA && (
+          <Row>
+            {isSelected ? (
+              <Button
+                type="primary"
+                onClick={() => unselect(_id)}
+                icon={
+                  <StyledCheckIcon name="check" width="15px" height="15px" />
+                }
+              >
+                Selected
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  select({ _id, name, description, features, price })
+                }
+              >
+                Select
+              </Button>
+            )}
+          </Row>
+        )}
       </Card.Body>
     </Card>
   );
@@ -73,9 +79,14 @@ ProductCard.propTypes = {
   name: PropTypes.string.isRequired,
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
   price: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  select: PropTypes.func.isRequired,
-  unselect: PropTypes.func.isRequired
+  isSelected: PropTypes.bool,
+  select: PropTypes.func,
+  unselect: PropTypes.func,
+  renderCTA: PropTypes.bool
+};
+
+ProductCard.defaultProps = {
+  renderCTA: true
 };
 
 const StyledCheckIcon = styled(Icon)`

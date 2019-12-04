@@ -16,6 +16,7 @@ const TemplateCard = ({
   isSelected,
   select,
   unselect,
+  renderCTA,
   ...rest
 }) => {
   const {
@@ -49,31 +50,36 @@ const TemplateCard = ({
             priceString
           )}
         </Card.Price>
-        <Row>
-          {isSelected ? (
-            <Button
-              type="primary"
-              onClick={() => unselect()}
-              icon={<StyledCheckIcon name="check" width="15px" height="15px" />}
-            >
-              Selected
-            </Button>
-          ) : (
-            <Button
-              onClick={() =>
-                select({
-                  _id,
-                  name,
-                  description,
-                  features,
-                  price
-                })
-              }
-            >
-              Select
-            </Button>
-          )}
-        </Row>
+        
+        {renderCTA && (
+          <Row>
+            {isSelected ? (
+              <Button
+                type="primary"
+                onClick={() => unselect()}
+                icon={
+                  <StyledCheckIcon name="check" width="15px" height="15px" />
+                }
+              >
+                Selected
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  select({
+                    _id,
+                    name,
+                    description,
+                    features,
+                    price
+                  })
+                }
+              >
+                Select
+              </Button>
+            )}
+          </Row>
+        )}
       </Card.Body>
     </Card>
   );
@@ -87,9 +93,14 @@ TemplateCard.propTypes = {
   name: PropTypes.string.isRequired,
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
   price: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  select: PropTypes.func.isRequired,
-  unselect: PropTypes.func.isRequired
+  isSelected: PropTypes.bool,
+  select: PropTypes.func,
+  unselect: PropTypes.func,
+  renderCTA: PropTypes.bool
+};
+
+TemplateCard.defaultProps = {
+  renderCTA: true
 };
 
 const PriceTag = styled.span`

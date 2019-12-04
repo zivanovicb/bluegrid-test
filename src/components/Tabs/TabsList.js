@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -9,29 +8,15 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${props => props.theme.lightGrey};
 `;
 
-const TabsList = ({ children, selectedIndex, setSelectedIndex, ...rest }) => {
+// We'll generate indexes for each tab instead of relying on developer to do so
+const TabsList = ({ children, ...rest }) => {
   return (
     <Wrapper {...rest}>
-      {React.Children.map(children, (child, index) => {
-        return React.cloneElement(child, {
-          ...child.props,
-          index,
-          isSelected: index === selectedIndex,
-          setSelectedIndex
-        });
-      })}
+      {React.Children.map(children, (child, index) =>
+        React.cloneElement(child, { ...child.props, index })
+      )}
     </Wrapper>
   );
-};
-
-TabsList.propTypes = {
-  selectedIndex: PropTypes.number.isRequired,
-  setSelectedIndex: PropTypes.func.isRequired
-};
-
-TabsList.defaultProps = {
-  selectedIndex: 0,
-  setSelectedIndex: () => {}
 };
 
 export default TabsList;
