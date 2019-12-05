@@ -123,6 +123,7 @@ const ModalSectionTitle = styled.h3`
 const CardList = styled.div`
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
 `;
 
 const styledModalClassName = "styled-modal";
