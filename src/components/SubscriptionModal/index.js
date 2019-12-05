@@ -57,7 +57,7 @@ const SubscriptionModal = ({
       </CardList>
 
       <ModalSectionTitle>Total price</ModalSectionTitle>
-      <p>${totalPrice}</p>
+      <TotalPrice>${totalPrice}</TotalPrice>
 
       <StyledButton
         type="squared"
@@ -136,6 +136,9 @@ const StyledModal = styled(Modal).attrs({
   className: styledModalClassName
 })`
   &.${styledModalClassName} {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
     position: absolute;
     top: 30px;
     left: 50%;
@@ -156,6 +159,10 @@ const StyledModal = styled(Modal).attrs({
       max-height: 100%;
     }
   }
+`;
+
+const TotalPrice = styled.p`
+  margin-bottom: 15px;
 `;
 
 const getTotalPrice = (selectedTemplate, selectedProducts) => {
