@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Modal from "react-modal";
 import Button from "../Button";
 import Icon from "../Icon";
 import TemplateCard from "../TemplateCard";
 import ProductCard from "../TemplateCard";
-import PropTypes from "prop-types";
+import getPriceProperties from "../../helpers/getPriceProperties";
 
 const SubscriptionModal = ({
   selectedTemplate,
@@ -15,6 +16,7 @@ const SubscriptionModal = ({
   onRequestClose,
   overlayStyles
 }) => {
+  const totalPrice = getTotalPrice(selectedTemplate, selectedProducts);
   return (
     <StyledModal
       isOpen={isModalOpen}
@@ -53,6 +55,9 @@ const SubscriptionModal = ({
           );
         })}
       </CardList>
+
+      <ModalSectionTitle>Total price</ModalSectionTitle>
+      <p>${totalPrice}</p>
 
       <StyledButton
         type="squared"
@@ -146,6 +151,22 @@ const StyledModal = styled(Modal).attrs({
     overflow: auto;
     @media screen and (max-width: 1200px) {
       width: 100%;
+      top: 0;
+      bottom: 0;
+      max-height: 100%;
     }
   }
 `;
+
+const getTotalPrice = (selectedTemplate, selectedProducts) => {
+  const { numericValue: templateAmount } = getPriceProperties(
+    selectedTemplate.price
+  );
+  return (
+    selectedProducts.reduce((acc, p) => {
+      const { isNumeric, numericValue } = getPriceProperties(p.price);
+      if (isNumeric) return numericValue + acc;
+      else return acc;
+    }, 0) + templateAmount
+  );
+};

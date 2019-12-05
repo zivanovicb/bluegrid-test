@@ -16,6 +16,9 @@ const Wrapper = styled.div`
   border-radius: 5px;
   box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #b3b3b3;
   overflow: hidden;
+  @media screen and (max-width: 735px) {
+    width: 100%;
+  }
 `;
 
 Card.Header = Header;

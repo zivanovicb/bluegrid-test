@@ -6,15 +6,17 @@ const getPriceProperties = priceString => {
   if (re.test(priceString)) {
     const [numericValue] = priceString.match(re);
     const [amount, billedPer] = priceString.split("/");
-
+    console.log("IS NUMERIC", numericValue);
     return {
       isNumeric: true,
-      numericValue,
+      numericValue: parseInt(numericValue),
       amount,
       billedPer,
       priceString
     };
   } else {
+    console.log("ITS FUCKING NOT", priceString);
+
     return {
       isNumeric: false,
       priceString

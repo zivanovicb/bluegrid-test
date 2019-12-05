@@ -84,6 +84,9 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 25px 50px;
   margin-bottom: 50px;
+  @media screen and (max-width: 735px) {
+    padding: 15px 20px;
+  }
 `;
 
 const StyledTemplateCard = styled(TemplateCard)`
