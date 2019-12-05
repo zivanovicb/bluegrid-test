@@ -24,7 +24,12 @@ const SubscriptionModal = ({
         overlay: overlayStyles
       }}
     >
-      <Heading>Congratulations, you have successfully subscribed! 🎉</Heading>
+      <Heading>
+        Congratulations, you have successfully subscribed!
+        <span role="img" aria-label="confetti">
+          🎉
+        </span>
+      </Heading>
 
       <ModalSectionTitle>Chosen Template</ModalSectionTitle>
       <CardList>

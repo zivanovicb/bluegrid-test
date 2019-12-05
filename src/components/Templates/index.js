@@ -1,19 +1,20 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import useAxios from "../../hooks/useAxios";
 import Row from "../Row";
 import TemplateCard from "../TemplateCard";
 import Loader from "../Loader";
 import Button from "../Button";
 import Icon from "../Icon";
-import { BASE_API_URL } from "../../constants";
 import TabsContext from "../../context/tabs";
+import useAxiosWithCaching from "../../hooks/useAxiosWithCaching";
+import { BASE_API_URL } from "../../constants";
 
 const Templates = ({ select, unselect, selectedTemplate, ...rest }) => {
   const { setSelectedIndex } = useContext(TabsContext);
-  const [isLoading, hasError, templates] = useAxios(
-    `${BASE_API_URL}/v1/templates`
+  const [isLoading, hasError, templates] = useAxiosWithCaching(
+    `${BASE_API_URL}/v1/templates`,
+    "templates"
   );
 
   if (isLoading) return <Loader />;
@@ -50,9 +51,7 @@ const Templates = ({ select, unselect, selectedTemplate, ...rest }) => {
 
         <SpanSeparator>or</SpanSeparator>
 
-        <a href="" onClick={e => e.preventDefault()}>
-          Back
-        </a>
+        <Button type="anchor">Back</Button>
       </Row>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import useAxios from "../../hooks/useAxios";
+import useAxiosWithCaching from "../../hooks/useAxiosWithCaching";
 import Row from "../Row";
 import ProductCard from "../ProductCard";
 import Loader from "../Loader";
@@ -19,8 +19,9 @@ const Products = ({
   ...rest
 }) => {
   const { setSelectedIndex } = useContext(TabsContext);
-  const [isLoading, hasError, products] = useAxios(
-    `${BASE_API_URL}/v1/products`
+  const [isLoading, hasError, products] = useAxiosWithCaching(
+    `${BASE_API_URL}/v1/products`,
+    "products"
   );
 
   if (isLoading) return <Loader />;
@@ -62,15 +63,9 @@ const Products = ({
 
         <SpanSeparator>or</SpanSeparator>
 
-        <a
-          href="#"
-          onClick={e => {
-            e.preventDefault();
-            setSelectedIndex(0);
-          }}
-        >
+        <Button type="anchor" onClick={() => setSelectedIndex(0)}>
           Back
-        </a>
+        </Button>
       </Row>
     </>
   );

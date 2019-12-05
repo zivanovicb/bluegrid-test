@@ -24,6 +24,8 @@ const Button = ({ type, children, icon, ...rest }) => {
           {children}
         </Base>
       );
+    case "anchor":
+      return <AnchorLikeButton {...rest}>{children}</AnchorLikeButton>;
     default:
       return (
         <Base hasIcon={!!icon} {...rest}>
@@ -66,6 +68,11 @@ const Squared = styled(Primary)`
   &:disabled {
     opacity: 0.6;
   }
+`;
+
+const AnchorLikeButton = styled.button`
+  text-decoration: underline;
+  color: ${props => props.theme.darkBlue};
 `;
 
 Button.propTypes = {

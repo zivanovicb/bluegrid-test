@@ -3,7 +3,7 @@ import styled from "styled-components";
 import HashLoader from "react-spinners/HashLoader";
 import { theme } from "../../constants";
 
-const Loader = ({}) => {
+const Loader = () => {
   return (
     <Wrapper>
       <StyledHashLoader size={60} color={theme.darkBlue} />
